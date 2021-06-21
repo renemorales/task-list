@@ -1,5 +1,4 @@
 // Define Ui Vars
-
 const form = document.querySelector("#task-form");
 const taskList = document.querySelector(".collection");
 const clearBtn = document.querySelector(".clear-tasks");
@@ -17,9 +16,11 @@ function loadEventListeners() {
   taskList.addEventListener("click", removeTask);
   // clear task event
   clearBtn.addEventListener("click", clearTasks);
+  // filter tasks event
+  filter.addEventListener("keyup", filterTasks);
 }
 
-// Add task
+// Add Task
 function addTask(e) {
   if (taskInput.value === "") {
     alert("add a task");
@@ -36,7 +37,6 @@ function addTask(e) {
   // add class to link
   link.className = "delete-item secondary-content";
   // add icon html
-  // link.innerHTML = '<i class="fa fa-remove"></i>';
   link.innerHTML = '<i class="far fa-trash-alt"></i>';
   // Append the link to li
   li.appendChild(link);
@@ -67,4 +67,19 @@ function clearTasks() {
   while (taskList.firstChild) {
     taskList.removeChild(taskList.firstChild);
   }
+}
+
+// Filter Tasks
+function filterTasks(e) {
+  const text = e.target.value.toLowerCase();
+
+  document.querySelectorAll(".collection-item").forEach(function (task) {
+    const item = task.firstChild.textContent;
+
+    if (item.toLowerCase().indexOf(text) != -1) {
+      task.style.display = "block";
+    } else {
+      task.style.display = "none";
+    }
+  });
 }
