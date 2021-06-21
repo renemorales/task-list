@@ -10,6 +10,8 @@ loadEventListeners();
 
 //  load all event listeners
 function loadEventListeners() {
+  // DOM load event
+  document.addEventListener("DOMContentLoaded", getTasks);
   // add task event
   form.addEventListener("submit", addTask);
   // remove task event
@@ -18,6 +20,35 @@ function loadEventListeners() {
   clearBtn.addEventListener("click", clearTasks);
   // filter tasks event
   filter.addEventListener("keyup", filterTasks);
+}
+
+// Get Tasks from LS
+function getTasks() {
+  let tasks;
+  if (localStorage.getItem("tasks") === null) {
+    tasks = [];
+  } else {
+    tasks = JSON.parse(localStorage.getItem("tasks"));
+  }
+  tasks.forEach(function (task) {
+    //create li element
+    const li = document.createElement("li");
+    // add class to li
+    li.className = "collection-item";
+    // create text node and append to li
+    li.appendChild(document.createTextNode(task));
+    // create new link element
+    const link = document.createElement("a");
+    // add class to link
+    link.className = "delete-item secondary-content";
+    // add icon html
+    link.innerHTML = '<i class="far fa-trash-alt"></i>';
+    // Append the link to li
+    li.appendChild(link);
+
+    // append the li to ul
+    taskList.appendChild(li);
+  });
 }
 
 // Add Task
